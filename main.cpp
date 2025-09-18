@@ -6,23 +6,29 @@ using namespace std;
 
 int main()
 {
-    
+
     string firstName, lastName;
     double baseSalary, commissionPercent;
     double totalSales, expenses;
+    double commission, totalPay;
 
     string fileName;
+    ifstream inFile;
+
+
     cout << "Enter the name of the input file: ";
     cin >> fileName;
 
-    ifstream inFile(fileName.c_str());
+
+    inFile.open(fileName.c_str());
+
     if (!inFile)
     {
-        cout << "Error: could not open file " << fileName << endl;
+        cout << "Error: Cannot open file." << endl;
         return 1;
     }
 
-    
+
     inFile >> firstName >> lastName;
     inFile >> baseSalary >> commissionPercent;
     inFile >> totalSales;
@@ -30,23 +36,25 @@ int main()
 
     inFile.close();
 
-    
-    double commission = (commissionPercent / 100.0) * totalSales;
-    double totalPay = baseSalary + commission - expenses;
 
-    
+    commission = (commissionPercent / 100) * totalSales;
+    totalPay = baseSalary + commission;   
+
+
     cout << fixed << setprecision(2);
-    cout << "\nPayroll data for " << firstName << " " << lastName << "\n\n";
+    cout << "\nPayroll data for " << firstName << " " << lastName << endl;
+    cout << endl;
 
     cout << "Base Salary:" << setw(10) << baseSalary << endl;
 
     cout << "Commission:" << setw(10) << commission 
-         << " (" << setprecision(1) << commissionPercent << "% of " 
-         << setprecision(2) << totalSales << ")" << endl;
+         << " (" << fixed << setprecision(1) << commissionPercent 
+         << "% of " << setprecision(2) << totalSales << ")" << endl;
 
-    cout << "Expenses:"   << setw(12) << expenses << endl;
-    cout << "             --------" << endl;
-    cout << "Total:"      << setw(13) << totalPay << endl;
+    cout << "Expenses:" << setw(12) << expenses << endl;
+    cout << "---------" << endl;
+
+    cout << "Total:" << setw(14) << totalPay << endl;
 
     return 0;
 }
